@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Weather Analysis Visualization for Temperature</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="scripts/d3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<nav class="navbar navbar-default col-sm-12">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand logo" style="background-color: #64acd0" href="index.html">
+					<span class="nav-color">Latitude</span>
+				</a>
+			</div>
+			<div class="nav navbar-nav navbar-right">
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Plots
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="temprature.html">Max Temperature</a>
+						</li>
+						<li>
+							<a href="humidity.html">Humidity</a>
+						</li>
+						<li>
+							<a href="cloudiness.html">Cloudiness</a>
+						</li>
+						<li>
+							<a href="windSpeed.html">Wind Speed</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="comparison.html">Comparison</a>
+				</li>
+				<li>
+					<a href="data.html">Data</a>
+				</li>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h2>Comparison: Latitude vs x</h2>
+						<hr>
+						<p>Click on any plot </p>
+						<div class="col-md-12">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<h2 align="center">vs Max Temperature</h2>
+								<div id="chart1"></div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<h2 align="center">vs Humidity</h2>
+								<div id="chart2"></div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<h2 align="center">vs Cloudiness</h2>
+								<div id="chart3"></div>
+							</div>
+
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								<h2 align="center">vs Wind Speed</h2>
+								<div id="chart4"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<!--Adding JS files for Charts-->
+<script src="D3Scripts/scatterPlot.js"></script>
+<!--Calling Chart Drawing Functions with length width paremeter-->
+<script>
+	d3.csv("/data/cities.csv", function (data) {
+		var tempuratureData = [];
+		var CloudinessData = [];
+		var HumidityData = [];
+		var WindSpeedData = [];
+		data.forEach(function (d) {
+			tempuratureData.push({
+				'x': +d.Lat,
+				'y': +d["Max Temp"],
+				'City': d.City
+			});
+			CloudinessData.push({
+				'x': +d.Lat,
+				'y': +d["Cloudiness"],
+				'City': d.City
+			});
+			HumidityData.push({
+				'x': +d.Lat,
+				'y': +d["Humidity"],
+				'City': d.City
+			});
+			WindSpeedData.push({
+				'x': +d.Lat,
+				'y': +d["Wind Speed"],
+				'City': d.City
+			});
+		});
+		// Draw Scatter Map
+		drawScaterChart('#chart1', tempuratureData, "Latitude", "Max Tempurature",
+			"City Latitude vs. Max Tempurature (07/04/18)");
+		drawScaterChart('#chart2', HumidityData, "Latitude", "Humidity", "City Latitude vs. Humidity (07/04/18)");
+		drawScaterChart('#chart3', CloudinessData, "Latitude", "Cloudiness", "City Latitude vs. Cloudiness (07/04/18)");
+		drawScaterChart('#chart4', WindSpeedData, "Latitude", "Wind Speed", "City Latitude vs. Wind Speed (07/04/18)");
+
+	});
+</script>
+
+</html>
